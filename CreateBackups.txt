@@ -1,0 +1,12 @@
+#!/bin/bash
+# A simple Bash script by Felix the king of the universe for general Linux security
+
+mkdir -p ~/Desktop/backups
+chmod 777 ~/Desktop/backups
+
+echo "Backups folder created on the Desktop."
+
+cp /etc/group ~/Desktop/backups/
+cp /etc/passwd ~/Desktop/backups/
+
+echo "/etc/group and /etc/passwd files backed up."

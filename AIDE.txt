@@ -1,0 +1,50 @@
+#!/bin/bash
+# A simple Bash script by Felix the king of the universe for general Linux security
+#Secure AIDE
+
+echo 'The AIDE package must be installed if it is to be available for integrity checking'
+# Remediation is applicable only in certain platforms
+if [ ! -f /.dockerenv ] && [ ! -f /run/.containerenv ]; then
+
+DEBIAN_FRONTEND=noninteractive apt-get install -y "aide"
+
+else
+    >&2 echo 'Remediation is not applicable, nothing was done'
+fi
+
+echo 'AIDE done'
+
+# Build and Test AIDE Database
+#By default, the database will be written to the file /var/lib/aide/aide.db.new. Storing the database, the configuration file /etc/aide.conf, and the binary /usr/bin/aide.wrapper (or hashes of these files), in a secure location (such as on read-only media) provides additional assurance about their integrity. 
+# Remediation is applicable only in certain platforms
+if [ ! -f /.dockerenv ] && [ ! -f /run/.containerenv ]; then
+
+DEBIAN_FRONTEND=noninteractive apt-get install -y "aide"
+
+/usr/sbin/aideinit
+/bin/mv /var/lib/aide/aide.db.new /var/lib/aide/aide.db
+
+else
+    >&2 echo 'Remediation is not applicable, nothing was done'
+fi
+
+echo 'AIDE database setup done'
+
+#Configure Periodic Execution of AIDE
+#At a minimum, AIDE should be configured to run a weekly scan. To implement a daily execution of AIDE at 4:05am using cron, add the following line to /etc/crontab: 
+# Remediation is applicable only in certain platforms
+if [ ! -f /.dockerenv ] && [ ! -f /run/.containerenv ]; then
+
+DEBIAN_FRONTEND=noninteractive apt-get install -y "aide"
+
+# AiDE usually adds its own cron jobs to /etc/cron.daily. If script is there, this rule is
+# compliant. Otherwise, we copy the script to the /etc/cron.weekly
+if ! egrep -q '^(/usr/bin/)?aide\.wrapper\s+' /etc/cron.*/*; then
+    cp -f /usr/share/aide/config/cron.daily/aide /etc/cron.weekly/
+fi
+
+else
+    >&2 echo 'Remediation is not applicable, nothing was done'
+fi
+
+echo "AIDE periodic execution done"

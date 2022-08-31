@@ -1,0 +1,26 @@
+#!/bin/bash
+# A simple Bash script by Felix the king of the universe for general Linux security
+
+>Secure SSH
+Set PermitRootLogin no in /etc/ssh/sshd_config
+Also set PermitEmptyPasswords no and HostbasedAuthentication no
+Also change port to nonstandard port (eg. Port 3784)
+sudo service ssh restart
+Check user home directories for files that allows for authenticated SSH access (ex. /home/$username/.ssh/authorized_keys) - remove or rename .ssh/ to prevent further SSH authentication capabilities (another suggestion is to remove entries in the authorized_keys file instead, if present)
+Check for established SSH connections: 
+* who | grep $username
+* sudo pkill -f pts/#
+If need to restrict SSH access, create group “sshlogin” (or whatever) and add group name to the AllowGroups variable in /etc/ssh/sshd_config (ex. AllowGroups sshlogin)
+Then add permitted SSH users to group “sshlogin” and restart SSH service
+* sudo adduser username sshlogin
+* sudo systemctl restart sshd.service (or use above command on line 3 of >Secure SSH)
+Install SSH Google Authenticator (2FA) if needed
+* sudo apt-get install libpam-google-authenticator
+Install OpenSSH Server if needed
+* sudo apt-get install openssh-server
+
+
+If README says no openssh-server or ftp, run:
+sudo apt-get -y purge openssh-server*
+sudo apt-get -y purge vsftpd*
+* Disable Remote Desktop

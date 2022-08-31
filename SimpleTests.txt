@@ -1,0 +1,10 @@
+#!/bin/bash
+# A simple Bash script by Felix the king of the universe for general Linux security
+
+if [ "$(id -u)" != "0" ]; then
+    echo "Script is not being run as root."
+	echo "run as: 'sudo ./scriptname.sh'."
+    exit    
+fi
+echo "Script is being run as root."
+

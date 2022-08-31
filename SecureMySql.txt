@@ -1,0 +1,6 @@
+#!/bin/bash
+# A simple Bash script by Felix the king of the universe for general Linux security
+
+>Harden MySQL
+https://www.techrepublic.com/article/how-to-harden-mysql-security-with-a-single-command/ 
+https://medium.com/linode-cube/5-essential-steps-to-hardening-your-mysql-database-591e477bbbd7 

@@ -1,0 +1,28 @@
+#!/bin/bash
+# A simple Bash script by Felix the king of the universe for general Linux security
+
+
+>Secure ports
+sudo netstat -tulpn or sudo ss -tulpn
+If local address is 127.0.0.1:$port, it is loopback and isn’t exposed
+sudo lsof -i :$port (more info, not always needed)
+whereis $program (copy program listening on port)
+Copy where the program is (first one if more than one listed): dpkg -S $location (note the name of the package given to you)
+sudo apt-get purge $package (if no package, you can probably delete it with rm $location and then killall -9 $program) MAKE SURE IT IS NOT A CRITICAL PACKAGE BEFORE HITTING Y
+sudo netstat -tulpn (make sure the port is actually closed)
+
+
+ALTERNATE:
+sudo netstat -tulnp or sudo ss -tulpn
+Use sudo kill $PID
+
+
+To check the listening ports and applications on Linux:
+1. Open a terminal application i.e. shell prompt.
+2. Run any one of the following command on Linux to see open ports:
+sudo lsof -i -P -n | grep LISTEN
+sudo netstat -tulpn | grep LISTEN
+sudo lsof -i:22 ## see a specific port such as 22 ##
+sudo nmap -sTU -O IP-address-Here
+3. For the latest version of Linux use the ss command. For example, ss -tulw
+

@@ -1,0 +1,11 @@
+>Secure network
+Enable firewall - sudo ufw enable
+Enable syn cookie protection - sysctl -n net.ipv4.tcp_syncookies
+Disable IPv6 (can be harmful) - echo "net.ipv6.conf.all.disable_ipv6 = 1" | sudo tee -a /etc/sysctl.conf
+Disable IP forwarding - echo 0 | sudo tee /proc/sys/net/ipv4/ip_forward
+Prevent IP spoofing - echo "nospoof on" | sudo tee -a /etc/host.conf
+
+
+>Configure services
+Check service configuration files for required services. Usually a wrong setting in a config file for sql, apache, etc. will be a point. MySQL, SSH, Apache, README software
+Ensure all services are legitimate - service --status-all

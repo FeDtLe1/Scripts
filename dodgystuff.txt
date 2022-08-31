@@ -1,0 +1,54 @@
+>Remove prohibited files
+cd /home then sudo ls -R * then sudo ls -Ra * | less, look through directories for media files/tools and/or “hacking tools”
+List hidden files in a directory with ls -a | grep -e "^\."
+ls -a works great for searching within one directory, while ls -la provides more detailed info 
+Check for hidden messages with filename of “...” with sudo ls -Ra / | grep  "\.\.\." (check places like /home, /etc/init.d, /etc/lightdm, /etc/ufw/applications.d, /var/spool/cron/crontabs, etc. but GOOD LUCK finding them since output doesn’t tell you where they are, HINT replace or remove / to search specific directories and go one by one across one layer of the file system to narrow down the locations)
+Check with: sudo find / -name ‘*.shost’ and sudo find / -name ‘*.rhost’ and remove any found
+apt list --installed | less
+Media files: .mp3, .mp4, .jpg, .mov, .txt (passwords plain text), .png, .gif
+Hacking tools: Zenmap, nmap, Wireshark, Crack, John the Ripper*, Hydra*, telnetd, Ophcrack, Medusa, nikto*, netcat, logkeys (* Disable Remote Desktop), ettercap, yersinia
+Other software: Minetest, Freeciv, Aisleriot, Wesnoth, Nginx, endless sky, ManaPlus, Game Conqueror, deluge
+Applications -> Ubuntu Software Center -> Installed Software -> find software and click remove
+If removing from terminal use:
+* dpkg --list | less (find name of application’s package, using grep instead can also work)
+* sudo apt-get --purge remove $package (if apt-get doesn’t work, try sudo aptitude remove $package)
+Record file names and locations that were deleted
+Script for finding prohibited files, must paste into bash or sh file to run
+for suffix in mp3 txt wav wma aac mp4 mov avi gif jpg png bmp img exe msi bat sh
+do
+  sudo find /home -name *.$suffix
+done
+
+
+
+>Check for malware
+Use AVG (download from http://free.avg.com/usen/download, get “.deb” version for Ubuntu)
+   * dpkg -i $package
+   * sudo /etc/init.d/avgd start
+   * sudo avgupdate
+   * sudo avgscan /
+chkrootkit
+   * sudo apt-get install chkrootkit
+   * sudo chkrootkit -q
+rkhunter
+   * sudo apt-get install rkhunter
+   * sudo rkhunter --update
+   * sudo rkhunter --propupd
+   * sudo rkhunter -c --enable all --disable none
+   
+
+
+
+Only if you have time and still have points to get
+Check crontab for malware/unauthorized actions (do this as root and as every user) - opens crontab file for you to check
+As you: crontab -e
+As root: sudo crontab -e
+As another user: sudo su - $user then crontab -e
+Remove with: crontab -r
+Remove entire folder: rm -r /var/spool/cron/crontabs
+Check files in  /etc/cron.d, /etc/cron.daily, /etc/cron.hourly, /etc/cron.monthly, /etc/cron.weekly, make sure the contents are legitimate
+Secure cron by creating an at.allow and at.deny file in /etc if they don’t already exist by using sudo gedit /etc/at.allow and/or sudo gedit /etc/at.deny
+
+
+Check places like /etc/cron.d, /usr/bin, /boot, /home/$user/.mozilla/firefox/, /usr/lib/firefox-addons/extensions/, /dev/, /etc/rc.local, /etc/rc2.d, /etc/profile.d, /tmp, /proc, ~/.profile, ~/.bashrc, /etc/profile, /usr/share/, etc. for scripts, suspicious files, trojans, rootkits, backdoors, rootkit servers, etc., some of which may be hidden files (our AV and rootkit scans won’t find some as they may be user-created “malware”, also file explorer may good way to visually identify scripts and executables)
+Use sudo ls -R | grep  "\.sh" | less
